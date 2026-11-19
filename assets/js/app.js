@@ -28,11 +28,10 @@ async function checkDashboardAccess() {
 }
 const $ = s => document.querySelector(s);
 
-const STORAGE_KEY = "finmanagement_transactions_v1";
 const THEME_KEY = "finmanagement_theme_v1";
 const CYCLE_KEY = "finmanagement_cycle_day_v1";
 
-let transactions = readJSON(STORAGE_KEY, []);
+let transactions = [];
 let theme = localStorage.getItem(THEME_KEY) || "dark";
 let cycleDay = Number(localStorage.getItem(CYCLE_KEY) || 1);
 let periodOffset = 0;
