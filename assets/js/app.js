@@ -702,9 +702,21 @@ $("#exportButton").addEventListener("click", () => {
 
 /* Jalankan aplikasi setelah login terverifikasi */
 
-checkDashboardAccess().then(authorized => {
-  if (authorized) {
-    setTheme();
-    render();
-  }
+checkDashboardAccess().then(async authorized => {
+if (!authorized) return;
+
+try {
+await window.FinDB.initialize();
+
+transactions = await window.FinDB.getTransactions();
+
+setTheme();
+render();
+
+} catch (error) {
+console.error("Gagal memuat data:", error);
+
+toast("Gagal memuat data dari database");
+
+}
 });
