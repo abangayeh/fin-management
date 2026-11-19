@@ -584,7 +584,9 @@ $("#searchTransactions").addEventListener("input", () => {
 
 /* Hapus transaksi */
 
-$("#transactionList").addEventListener("click", event => {
+/* Hapus transaksi dari Supabase */
+
+$("#transactionList").addEventListener("click", async event => {
   const button = event.target.closest("[data-delete]");
 
   if (!button) return;
@@ -597,18 +599,20 @@ $("#transactionList").addEventListener("click", event => {
     item &&
     confirm(`Hapus transaksi "${item.description}"?`)
   ) {
-    transactions = transactions.filter(
-      transaction => transaction.id !== item.id
-    );
+    try {
+      await window.FinDB.deleteTransaction(item.id);
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(transactions)
-    );
+      transactions = await window.FinDB.getTransactions();
 
-    render();
+      render();
 
-    toast("Transaksi dihapus");
+      toast("Transaksi berhasil dihapus");
+
+    } catch (error) {
+      console.error("Gagal menghapus transaksi:", error);
+
+      toast("Gagal menghapus transaksi");
+    }
   }
 });
 
