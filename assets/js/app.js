@@ -549,10 +549,10 @@ function setTheme() {
 
 /* Pencatatan transaksi cepat */
 
-$("#quickForm").addEventListener("submit", event => {
+$("#quickForm").addEventListener("submit", async event => {
   event.preventDefault();
 
-  addQuick($("#quickInput").value);
+  await addQuick($("#quickInput").value);
 });
 
 $("#quickHints").addEventListener("click", event => {
