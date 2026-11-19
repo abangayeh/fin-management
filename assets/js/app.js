@@ -257,60 +257,13 @@ toast("Transaksi berhasil disimpan");
 return true;
 
 } catch (error) {
-    console.error("Gagal menyimpan transaksi:", error);
-    toast("Gagal menyimpan transaksi ke database");
-    return false;
-  }
+console.error("Gagal menyimpan transaksi:", error);
+
+toast("Gagal menyimpan transaksi ke database");
+
+return false;
+
 }
-
-  const description = clean
-    .replace(
-      /(?:rp\s*)?\d+(?:[.,]\d+)?\s*(?:jt|juta|rb|ribu|k)?\b/i,
-      ""
-    )
-    .replace(/\s+/g, " ")
-    .trim() || clean;
-
-  const item = {
-    id: crypto.randomUUID
-      ? crypto.randomUUID()
-      : String(Date.now()),
-
-    description,
-    amount: parsed.amount,
-    type: parsed.type,
-    category: parsed.category,
-    date: todayISO(),
-    note: "",
-    createdAt: new Date().toISOString()
-  };
-
-  transactions.push(item);
-
-  try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(transactions)
-    );
-
-  } catch {
-    transactions.pop();
-
-    toast("Tidak bisa menyimpan. Penyimpanan browser penuh.");
-
-    return false;
-  }
-
-  $("#quickInput").value = "";
-
-  $("#entryFeedback").textContent =
-    `Tersimpan: ${description} · ${parsed.category} · ${rupiah(parsed.amount)}`;
-
-  render();
-
-  toast("Transaksi berhasil disimpan");
-
-  return true;
 }
 
 function periodTransactions() {
