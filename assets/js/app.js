@@ -132,13 +132,23 @@ function periodLabel(period) {
 
 function parseAmount(text) {
   const match = text.toLowerCase().match(
-    /(\d+(?:[.,]\d+)?)\s*(jt|juta|rb|ribu|k)?\b/i
+    /(\d[\d.,]*)\s*(jt|juta|rb|ribu|k)?\b/i
   );
 
   if (!match) return 0;
 
-  const number = Number(match[1].replace(",", "."));
+  const raw = match[1];
   const unit = (match[2] || "").toLowerCase();
+
+  let number;
+
+  if (unit) {
+    number = Number(raw.replace(",", "."));
+  } else {
+    number = Number(raw.replace(/[.,]/g, ""));
+  }
+
+  if (!Number.isFinite(number)) return 0;
 
   return Math.round(
     number * (
