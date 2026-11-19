@@ -959,3 +959,97 @@ a {
     }
 
 }
+/* =========================================
+   TRANSACTION ITEM COMPONENTS
+========================================= */
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn 0.25s ease;
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--surface-soft);
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    flex-shrink: 0;
+}
+
+.transaction-info strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    overflow-wrap: anywhere;
+}
+
+.transaction-info span {
+    display: block;
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.transaction-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.transaction-actions > strong {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.delete-transaction {
+    width: 27px;
+    height: 27px;
+    border: none;
+    border-radius: 8px;
+    background: var(--surface-soft);
+    color: var(--expense);
+    font-size: 19px;
+    transition: 0.2s;
+}
+
+.delete-transaction:hover {
+    background: rgba(237, 101, 117, 0.12);
+    transform: scale(1.08);
+}
+
+@media (max-width: 380px) {
+    .transaction-item {
+        gap: 7px;
+    }
+
+    .transaction-info {
+        gap: 8px;
+    }
+
+    .transaction-actions {
+        gap: 5px;
+    }
+
+    .transaction-actions > strong {
+        font-size: 10px;
+    }
+}
