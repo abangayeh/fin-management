@@ -222,7 +222,6 @@ $("#entryFeedback").textContent =
 return false;
 
 }
-}
 
 const description = clean
 .replace(
@@ -258,12 +257,10 @@ toast("Transaksi berhasil disimpan");
 return true;
 
 } catch (error) {
-console.error("Gagal menyimpan transaksi:", error);
-
-toast("Gagal menyimpan transaksi ke database");
-
-return false;
-
+    console.error("Gagal menyimpan transaksi:", error);
+    toast("Gagal menyimpan transaksi ke database");
+    return false;
+  }
 }
 
   const description = clean
