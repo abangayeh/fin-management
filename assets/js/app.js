@@ -222,6 +222,7 @@ $("#entryFeedback").textContent =
 return false;
 
 }
+}
 
 const description = clean
 .replace(
