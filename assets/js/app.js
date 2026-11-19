@@ -1,5 +1,31 @@
 "use strict";
+// ==============================
+// PENGAMAN LOGIN DASHBOARD
+// ==============================
 
+document.documentElement.style.visibility = "hidden";
+
+async function checkDashboardAccess() {
+  try {
+    const session = await window.FinAuth.getSession();
+
+    if (!session) {
+      window.location.replace("login.html");
+      return false;
+    }
+
+    window.FIN_CURRENT_USER = session.user;
+
+    document.documentElement.style.visibility = "visible";
+
+    return true;
+
+  } catch (error) {
+    console.error("Pemeriksaan login gagal:", error);
+    window.location.replace("login.html");
+    return false;
+  }
+}
 const $ = s => document.querySelector(s);
 
 const STORAGE_KEY = "finmanagement_transactions_v1";
@@ -632,7 +658,11 @@ $("#exportButton").addEventListener("click", () => {
   toast("Laporan CSV diunduh");
 });
 
-/* Jalankan aplikasi */
+/* Jalankan aplikasi setelah login terverifikasi */
 
-setTheme();
-render();
+checkDashboardAccess().then(authorized => {
+  if (authorized) {
+    setTheme();
+    render();
+  }
+});
