@@ -582,8 +582,6 @@ $("#searchTransactions").addEventListener("input", () => {
   renderHistory(periodTransactions());
 });
 
-/* Hapus transaksi */
-
 /* Hapus transaksi dari Supabase */
 
 $("#transactionList").addEventListener("click", async event => {
