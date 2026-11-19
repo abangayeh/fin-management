@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <title>Masuk | Fin. Management</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #080d18;
+      --card: #111a2b;
+      --card-light: #172338;
+      --text: #f4f7fc;
+      --muted: #8b98ad;
+      --green: #37d69a;
+      --border: rgba(255,255,255,.09);
+      --red: #ff7272;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(55,214,154,.13), transparent 32%),
+        radial-gradient(circle at 90% 90%, rgba(64,119,255,.12), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1050px;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      background: rgba(17,26,43,.85);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 30px 100px rgba(0,0,0,.4);
+    }
+
+    .left {
+      padding: 55px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(55,214,154,.12), transparent 45%),
+        linear-gradient(145deg,#111d30,#0d1524);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: Manrope, sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: #062016;
+      font-size: 23px;
+    }
+
+    .hero {
+      margin: 75px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 13px;
+      border: 1px solid rgba(55,214,154,.25);
+      border-radius: 30px;
+      color: var(--green);
+      font-size: 12px;
+      margin-bottom: 22px;
+      background: rgba(55,214,154,.07);
+    }
+
+    .hero h1 {
+      font-family: Manrope, sans-serif;
+      font-size: clamp(30px,4vw,43px);
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: var(--green);
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 390px;
+      font-size: 15px;
+    }
+
+    .features {
+      display: grid;
+      gap: 17px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      color: #c5cfdd;
+      font-size: 14px;
+    }
+
+    .feature-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+      background: rgba(55,214,154,.1);
+      color: var(--green);
+      display: grid;
+      place-items: center;
+    }
+
+    .copyright {
+      color: #65748a;
+      font-size: 11px;
+      margin-top: 40px;
+    }
+
+    .right {
+      padding: 48px 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-heading {
+      margin-bottom: 30px;
+    }
+
+    .form-heading h2 {
+      font-family: Manrope, sans-serif;
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .form-heading p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #0a1220;
+      padding: 5px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 12px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .tab.active {
+      background: var(--card-light);
+      color: var(--green);
+    }
+
+    .field {
+      margin-bottom: 17px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 9px;
+      color: #d8e0eb;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .field input {
+      width: 100%;
+      height: 49px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #0a1220;
+      color: white;
+      padding: 0 14px;
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    .field input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(55,214,154,.08);
+    }
+
+    .password-input {
+      padding-right: 65px !important;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      color: var(--green);
+      background: transparent;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .forgot {
+      text-align: right;
+      margin-top: -5px;
+      margin-bottom: 20px;
+    }
+
+    .forgot button {
+      color: var(--green);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .submit {
+      width: 100%;
+      height: 51px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--green);
+      color: #062016;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      transition: .2s;
+    }
+
+    .submit:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .submit:disabled {
+      opacity: .6;
+      cursor: wait;
+      transform: none;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-bottom: 17px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .message.success {
+      display: block;
+      color: var(--green);
+      background: rgba(55,214,154,.1);
+      border: 1px solid rgba(55,214,154,.2);
+    }
+
+    .message.error {
+      display: block;
+      color: var(--red);
+      background: rgba(255,114,114,.1);
+      border: 1px solid rgba(255,114,114,.2);
+    }
+
+    .terms {
+      margin-top: 22px;
+      color: #738198;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .terms strong {
+      color: #aebbd0;
+    }
+
+    @media(max-width: 800px) {
+      .container {
+        max-width: 480px;
+        grid-template-columns: 1fr;
+      }
+
+      .left {
+        padding: 27px 28px;
+      }
+
+      .hero {
+        margin: 35px 0 20px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .features,
+      .copyright {
+        display: none;
+      }
+
+      .right {
+        padding: 35px 28px;
+      }
+    }
+
+    @media(max-width: 380px) {
+      body { padding: 12px; }
+      .left, .right { padding: 25px 20px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <section class="left">
+
+      <div class="brand">
+        <div class="brand-icon">₣</div>
+        <span>Fin. Management</span>
+      </div>
+
+      <div class="hero">
+        <div class="badge">✦ SMART FINANCIAL MANAGEMENT</div>
+
+        <h1>
+          Kelola uangmu,<br>
+          bangun <span>masa depan.</span>
+        </h1>
+
+        <p>
+          Satu tempat untuk mengatur pemasukan, pengeluaran,
+          anggaran, dan seluruh perjalanan keuanganmu.
+        </p>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">↗</div>
+          Catat pemasukan dan pengeluaran dengan mudah
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">▤</div>
+          Pantau laporan keuangan secara otomatis
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">◇</div>
+          Kelola keuangan bersama keluarga
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 KHAYALAN GRUP · Created by Muhammad Rozikin
+      </div>
+
+    </section>
+
+    <section class="right">
+
+      <div class="form-heading">
+        <h2 id="formTitle">Selamat datang!</h2>
+        <p id="formSubtitle">Masuk untuk melanjutkan ke dashboard kamu.</p>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <button class="tab active" id="loginTab" type="button">
+          Masuk
+        </button>
+
+        <button class="tab" id="registerTab" type="button">
+          Daftar
+        </button>
+      </div>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <form id="authForm">
+
+        <div class="field" id="nameField" hidden>
+          <label for="name">Nama lengkap</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Masukkan nama lengkap"
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="field">
+          <label for="email">Alamat email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="nama@email.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="field" id="passwordField">
+          <label for="password">Password</label>
+
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="password"
+              class="password-input"
+              placeholder="Masukkan password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="show-password"
+              id="togglePassword"
+            >
+              Lihat
+            </button>
+          </div>
+        </div>
+
+        <div class="forgot" id="forgotField">
+          <button type="button" id="forgotButton">
+            Lupa password?
+          </button>
+        </div>
+
+        <button type="submit" class="submit" id="submitButton">
+          Masuk ke Dashboard →
+        </button>
+
+      </form>
+
+      <div class="terms">
+        Dengan menggunakan Fin. Management, kamu menyetujui
+        ketentuan penggunaan dan kebijakan privasi kami.
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    let mode = "login";
+
+    const form = $("authForm");
+    const nameField = $("nameField");
+    const passwordField = $("passwordField");
+    const forgotField = $("forgotField");
+    const tabs = $("tabs");
+    const message = $("message");
+    const submitButton = $("submitButton");
+
+    function showMessage(text, type = "error") {
+      message.textContent = text;
+      message.className = "message " + type;
+    }
+
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
+    }
+
+    function setMode(newMode) {
+      mode = newMode;
+      clearMessage();
+
+      $("loginTab").classList.toggle("active", mode === "login");
+      $("registerTab").classList.toggle("active", mode === "register");
+
+      nameField.hidden = mode !== "register";
+      $("name").required = mode === "register";
+
+      forgotField.hidden = mode !== "login";
+
+      $("formTitle").textContent =
+        mode === "login" ? "Selamat datang!" : "Buat akun baru";
+
+      $("formSubtitle").textContent =
+        mode === "login"
+          ? "Masuk untuk melanjutkan ke dashboard kamu."
+          : "Daftar sekarang dan mulai kelola keuanganmu.";
+
+      $("password").autocomplete =
+        mode === "login" ? "current-password" : "new-password";
+
+      submitButton.textContent =
+        mode === "login" ? "Masuk ke Dashboard →" : "Buat Akun →";
+    }
+
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("registerTab").addEventListener("click", () => setMode("register"));
+
+    $("togglePassword").addEventListener("click", () => {
+      const input = $("password");
+      const visible = input.type === "password";
+
+      input.type = visible ? "text" : "password";
+      $("togglePassword").textContent = visible ? "Sembunyi" : "Lihat";
+    });
+
+    $("forgotButton").addEventListener("click", async () => {
+      clearMessage();
+
+      const email = $("email").value.trim();
+
+      if (!email) {
+        showMessage("Masukkan alamat email terlebih dahulu.");
+        $("email").focus();
+        return;
+      }
+
+      try {
+        $("forgotButton").disabled = true;
+
+        await window.FinAuth.resetPassword(email);
+
+        showMessage(
+          "Permintaan reset password berhasil dikirim. Periksa email kamu.",
+          "success"
+        );
+      } catch (error) {
+        showMessage(error.message || "Gagal mengirim reset password.");
+      } finally {
+        $("forgotButton").disabled = false;
+      }
+    });
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      clearMessage();
+
+      const email = $("email").value.trim();
+      const password = $("password").value;
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Memproses...";
+
+      try {
+        if (mode === "register") {
+          const name = $("name").value.trim();
+
+          const result = await window.FinAuth.register({
+            name,
+            email,
+            password
+          });
+
+          if (result.needsEmailConfirmation) {
+            showMessage(
+              "Pendaftaran berhasil! Silakan periksa email untuk konfirmasi akun sebelum login.",
+              "success"
+            );
+
+            setMode("login");
+            return;
+          }
+
+          showMessage("Pendaftaran berhasil. Mengarahkan ke dashboard...", "success");
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 800);
+
+        } else {
+          await window.FinAuth.login({ email, password });
+
+          showMessage("Login berhasil. Mengarahkan ke dashboard...", "success");
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+        }
+
+      } catch (error) {
+        showMessage(error.message || "Terjadi kesalahan. Silakan coba lagi.");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent =
+          mode === "login" ? "Masuk ke Dashboard →" : "Buat Akun →";
+      }
+    });
+
+    // Jika pengguna sudah login, langsung ke dashboard.
+    window.FinAuth.getSession()
+      .then(session => {
+        if (session) {
+          window.location.replace("index.html");
+        }
+      })
+      .catch(error => {
+        console.error("Gagal memeriksa sesi:", error);
+      });
+
+  </script>
+
+</body>
+</html>
