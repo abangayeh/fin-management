@@ -1,14 +1,8 @@
 "use strict";
 
-const SUPABASE_URL =
-  "https://jttyhnhyqkehzwaxywzk.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_uUQy8lzzAHWH4X2t71b_tA_e3vIVrUk";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY,
+window.supabaseClient = window.supabase.createClient(
+  "https://jttyhnhyqkehzwaxywzk.supabase.co",
+  "sb_publishable_uUQy8lzzAHWH4X2t71b_tA_e3vIVrUk",
   {
     auth: {
       autoRefreshToken: true,
