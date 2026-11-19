@@ -667,9 +667,15 @@ setTheme();
 render();
 
 } catch (error) {
-console.error("Gagal memuat data:", error);
+  console.error("Gagal memuat data:", error);
 
-toast("Gagal memuat data dari database");
+  const detail =
+    error?.message ||
+    error?.details ||
+    error?.hint ||
+    error?.code ||
+    "Kesalahan tidak diketahui";
 
+  toast("Database: " + detail);
 }
 });
