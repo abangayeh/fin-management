@@ -671,6 +671,45 @@ if (!authorized) return;
 
 try {
 await window.FinDB.initialize();
+  // ==================================
+// DOMPET KELUARGA
+// ==================================
+
+const wallet = window.FinDB.getCurrentWallet();
+const user = window.FinDB.getCurrentUser();
+
+const walletName = document.getElementById("walletName");
+const walletRole = document.getElementById("walletRole");
+const inviteButton = document.getElementById("createInviteButton");
+const inviteResult = document.getElementById("inviteResult");
+const inviteCode = document.getElementById("inviteCode");
+const walletFeedback = document.getElementById("walletFeedback");
+
+if (wallet) {
+  walletName.textContent = wallet.name;
+
+  walletRole.textContent =
+    wallet.created_by === user.id
+      ? "Pemilik dompet"
+      : "Anggota dompet";
+}
+
+inviteButton.addEventListener("click", async () => {
+  inviteButton.disabled = true;
+  walletFeedback.textContent = "Membuat kode undangan...";
+
+  try {
+    const code = await window.FinDB.createWalletInvite();
+
+    inviteCode.textContent = code;
+    inviteResult.hidden = false;
+    walletFeedback.textContent = "Kode undangan berhasil dibuat.";
+  } catch (error) {
+    walletFeedback.textContent = error.message;
+  } finally {
+    inviteButton.disabled = false;
+  }
+});
 
 // Tampilkan nama pengguna
 const user = window.FIN_CURRENT_USER;
