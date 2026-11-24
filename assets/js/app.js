@@ -676,7 +676,7 @@ await window.FinDB.initialize();
 // ==================================
 
 const wallet = window.FinDB.getCurrentWallet();
-const user = window.FinDB.getCurrentUser();
+const walletUser = window.FinDB.getCurrentUser();
 
 const walletName = document.getElementById("walletName");
 const walletRole = document.getElementById("walletRole");
