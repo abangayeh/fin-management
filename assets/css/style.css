@@ -71,15 +71,23 @@ button{cursor:pointer}
   margin:6px 0 0;
   color:var(--muted)
 }
-.theme-button{
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
   margin-left:auto;
+  flex:none;
+}
+
+.theme-button{
   border:1px solid var(--line);
   border-radius:14px;
   background:var(--panel);
   color:var(--text);
   width:46px;
   height:46px;
-  font-size:22px
+  font-size:22px;
+  cursor:pointer;
 }
 .top-actions{
   display:flex;
