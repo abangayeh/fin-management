@@ -449,12 +449,23 @@ function renderHistory(list) {
         ${item.type === "income" ? "+" : "−"}${rupiah(item.amount)}
       </span>
 
-      <button
-        class="delete-button"
-        data-delete="${esc(item.id)}"
-        aria-label="Hapus ${esc(item.description)}">
-        ×
-      </button>
+      <div class="transaction-actions">
+  <button
+    type="button"
+    class="comment-button"
+    data-comment="${esc(item.id)}"
+    aria-label="Komentar ${esc(item.description)}">
+    💬
+  </button>
+
+  <button
+    type="button"
+    class="delete-button"
+    data-delete="${esc(item.id)}"
+    aria-label="Hapus ${esc(item.description)}">
+    ×
+  </button>
+</div>
 
     </article>
   `).join("");
