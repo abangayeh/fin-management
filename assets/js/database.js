@@ -60,26 +60,35 @@ async function getTransactionComments(transactionId) {
     throw new Error("Dompet tidak ditemukan");
   }
 
-  const { data, error } = await client
+  const { data: comments, error } = await client
     .from("transaction_comments")
-    .select(`
-      id,
-      wallet_id,
-      transaction_id,
-      user_id,
-      comment,
-      created_at,
-      profiles (
-        full_name
-      )
-    `)
+    .select("id,wallet_id,transaction_id,user_id,comment,created_at")
     .eq("wallet_id", wallet.id)
     .eq("transaction_id", transactionId)
     .order("created_at", { ascending: true });
 
   if (error) throw error;
+  if (!comments || comments.length === 0) return [];
 
-  return data;
+  const userIds = [...new Set(
+    comments.map(comment => comment.user_id).filter(Boolean)
+  )];
+
+  const { data: profiles, error: profileError } = await client
+    .from("profiles")
+    .select("id,full_name")
+    .in("id", userIds);
+
+  if (profileError) throw profileError;
+
+  const names = new Map(
+    (profiles || []).map(profile => [profile.id, profile.full_name])
+  );
+
+  return comments.map(comment => ({
+    ...comment,
+    full_name: names.get(comment.user_id) || "Pengguna"
+  }));
 }
 async function addTransaction(transaction) {
 if (!currentUser || !currentWallet) {
