@@ -1,1 +1,342 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <title>Profil Pengguna | Fin. Management</title>  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">  <style>
+    :root {
+      --bg:#080d18;
+      --card:#111a2b;
+      --text:#f4f7fc;
+      --muted:#8b98ad;
+      --green:#37d69a;
+      --border:rgba(255,255,255,.09);
+      --red:#ff7272;
+    }
 
+    * {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body {
+      min-height:100vh;
+      padding:24px;
+      background:
+        radial-gradient(circle at 15% 10%,rgba(55,214,154,.13),transparent 32%),
+        radial-gradient(circle at 90% 90%,rgba(64,119,255,.12),transparent 30%),
+        var(--bg);
+      color:var(--text);
+      font-family:"DM Sans",sans-serif;
+    }
+
+    .profile-container {
+      width:100%;
+      max-width:620px;
+      margin:45px auto;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:30px;
+      font-family:Manrope,sans-serif;
+      font-size:21px;
+      font-weight:800;
+    }
+
+    .brand-icon {
+      width:43px;
+      height:43px;
+      display:grid;
+      place-items:center;
+      border-radius:13px;
+      background:var(--green);
+      color:#062016;
+      font-size:23px;
+    }
+
+    .card {
+      padding:30px;
+      border:1px solid var(--border);
+      border-radius:22px;
+      background:rgba(17,26,43,.92);
+      box-shadow:0 25px 70px rgba(0,0,0,.3);
+    }
+
+    h1 {
+      font-family:Manrope,sans-serif;
+      font-size:27px;
+      margin-bottom:8px;
+    }
+
+    .subtitle {
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:28px;
+    }
+
+    .avatar {
+      width:88px;
+      height:88px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      margin:0 auto 12px;
+      background:rgba(55,214,154,.12);
+      border:2px solid rgba(55,214,154,.3);
+      color:var(--green);
+      font-size:34px;
+      font-weight:800;
+    }
+
+    .avatar-caption {
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:28px;
+    }
+
+    .field {
+      margin-bottom:19px;
+    }
+
+    label {
+      display:block;
+      margin-bottom:9px;
+      font-size:13px;
+      font-weight:700;
+      color:#d8e0eb;
+    }
+
+    input {
+      width:100%;
+      height:49px;
+      padding:0 14px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:#0a1220;
+      color:white;
+      font-family:inherit;
+      font-size:14px;
+      outline:none;
+    }
+
+    input:focus {
+      border-color:var(--green);
+      box-shadow:0 0 0 3px rgba(55,214,154,.08);
+    }
+
+    input:disabled {
+      opacity:.65;
+      cursor:not-allowed;
+    }
+
+    .hint {
+      color:var(--muted);
+      font-size:11px;
+      margin-top:7px;
+    }
+
+    .message {
+      display:none;
+      padding:12px;
+      margin-bottom:18px;
+      border-radius:10px;
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .message.success {
+      display:block;
+      color:var(--green);
+      background:rgba(55,214,154,.1);
+      border:1px solid rgba(55,214,154,.2);
+    }
+
+    .message.error {
+      display:block;
+      color:var(--red);
+      background:rgba(255,114,114,.1);
+      border:1px solid rgba(255,114,114,.2);
+    }
+
+    .actions {
+      display:flex;
+      gap:12px;
+      margin-top:25px;
+    }
+
+    button {
+      min-height:49px;
+      padding:0 18px;
+      border:0;
+      border-radius:11px;
+      font-family:inherit;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .save {
+      flex:1;
+      background:var(--green);
+      color:#062016;
+    }
+
+    .back {
+      background:#202c40;
+      color:var(--text);
+    }
+
+    button:disabled {
+      opacity:.6;
+      cursor:wait;
+    }
+
+    @media(max-width:480px) {
+      body {padding:14px}
+      .profile-container {margin:25px auto}
+      .card {padding:22px 18px}
+      .actions {flex-direction:column}
+    }
+  </style></head><body>  <main class="profile-container"><div class="brand">
+  <div class="brand-icon">₣</div>
+  <span>Fin. Management</span>
+</div>
+
+<section class="card">
+
+  <h1>Profil Pengguna</h1>
+  <p class="subtitle">Kelola informasi akun pribadi kamu.</p>
+
+  <div class="avatar" id="avatar">?</div>
+  <p class="avatar-caption">Profil akun kamu</p>
+
+  <div id="message" class="message" role="status" aria-live="polite"></div>
+
+  <form id="profileForm">
+
+    <div class="field">
+      <label for="fullName">Nama lengkap</label>
+      <input
+        type="text"
+        id="fullName"
+        maxlength="100"
+        autocomplete="name"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label for="email">Alamat email</label>
+      <input type="email" id="email" disabled>
+      <p class="hint">Email akun tidak dapat diubah dari halaman ini.</p>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="save" id="saveButton">
+        Simpan Perubahan
+      </button>
+
+      <button type="button" class="back" id="backButton">
+        Kembali
+      </button>
+    </div>
+
+  </form>
+
+</section>
+
+  </main>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="assets/js/supabase.js"></script>  <script src="assets/js/auth.js"></script>  <script>
+    const $ = id => document.getElementById(id);
+
+    function showMessage(text, type) {
+      $("message").textContent = text;
+      $("message").className = "message " + type;
+    }
+
+    function updateAvatar(name) {
+      $("avatar").textContent =
+        (name.trim().charAt(0) || "?").toUpperCase();
+    }
+
+    async function loadProfile() {
+      try {
+        const session = await window.FinAuth.getSession();
+
+        if (!session) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        const user = session.user;
+
+        $("fullName").value =
+          user.user_metadata?.full_name || "";
+
+        $("email").value = user.email || "";
+
+        updateAvatar($("fullName").value);
+
+      } catch (error) {
+        console.error(error);
+        showMessage("Gagal memuat profil akun.", "error");
+      }
+    }
+
+    $("fullName").addEventListener("input", () => {
+      updateAvatar($("fullName").value);
+    });
+
+    $("profileForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const name = $("fullName").value.trim();
+
+      if (!name) {
+        showMessage("Nama lengkap tidak boleh kosong.", "error");
+        return;
+      }
+
+      const button = $("saveButton");
+      button.disabled = true;
+      button.textContent = "Menyimpan...";
+
+      try {
+        const { data, error } =
+          await window.supabaseClient.auth.updateUser({
+            data: {
+              full_name: name
+            }
+          });
+
+        if (error) throw error;
+
+        updateAvatar(name);
+
+        showMessage("Profil berhasil diperbarui!", "success");
+
+      } catch (error) {
+        console.error(error);
+        showMessage(
+          error.message || "Gagal memperbarui profil.",
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Simpan Perubahan";
+      }
+    });
+
+    $("backButton").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    loadProfile();
+  </script></body>
+</html>
