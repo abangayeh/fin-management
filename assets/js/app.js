@@ -578,13 +578,11 @@ async function loadTransactionComments() {
         minute: "2-digit"
       });
 
-      const userId = comment.user_id
-        ? comment.user_id.slice(0, 8)
-        : "Pengguna";
+      const userName = comment.full_name || "Pengguna";
 
       return `
         <article class="comment-item">
-          <strong>${esc(userId)}</strong>
+          <strong>${esc(userName)}</strong>
           <p>${esc(comment.comment)}</p>
           <small>${esc(formattedDate)}</small>
         </article>
