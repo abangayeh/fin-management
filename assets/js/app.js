@@ -787,7 +787,19 @@ $("#searchTransactions").addEventListener("input", () => {
 
 /* Hapus transaksi dari Supabase */
 
+/* Komentar dan hapus transaksi */
+
 $("#transactionList").addEventListener("click", async event => {
+
+  // Tombol komentar
+  const commentButton = event.target.closest("[data-comment]");
+
+  if (commentButton) {
+    await openTransactionComments(commentButton.dataset.comment);
+    return;
+  }
+
+  // Tombol hapus
   const button = event.target.closest("[data-delete]");
 
   if (!button) return;
@@ -804,6 +816,8 @@ $("#transactionList").addEventListener("click", async event => {
       await window.FinDB.deleteTransaction(item.id);
 
       transactions = await window.FinDB.getTransactions();
+
+      await loadTransactionActivity();
 
       render();
 
