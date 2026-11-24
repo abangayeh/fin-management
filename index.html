@@ -46,7 +46,38 @@
 </header>
 
 <main class="content">
+<!-- DOMPET KELUARGA -->
 
+<section class="panel family-wallet-panel">
+
+    <div class="panel-heading">
+        <div>
+            <h3>👨‍👩‍👧 Dompet Keluarga</h3>
+            <p>Kelola keuangan bersama pasangan</p>
+        </div>
+    </div>
+
+    <div class="family-wallet-info">
+        <strong id="walletName">Memuat dompet...</strong>
+        <span id="walletRole">Memuat status...</span>
+    </div>
+
+    <button
+        type="button"
+        class="primary-button"
+        id="createInviteButton">
+        + Buat Kode Undangan
+    </button>
+
+    <div id="inviteResult" hidden>
+        <p>Kode undangan:</p>
+        <strong id="inviteCode"></strong>
+        <p>Kode berlaku selama 7 hari.</p>
+    </div>
+
+    <p id="walletFeedback" role="status"></p>
+
+</section>
 <section class="top-actions">
 
     <div class="period-control">
