@@ -459,6 +459,84 @@ function renderHistory(list) {
     </article>
   `).join("");
 }
+// ==================================
+// AKTIVITAS TRANSAKSI
+// ==================================
+
+async function loadTransactionActivity() {
+  const activityList = $("#activityList");
+  const activityEmpty = $("#activityEmpty");
+
+  activityList.innerHTML =
+    '<p class="muted">Memuat aktivitas...</p>';
+
+  try {
+    const logs = await window.FinDB.getTransactionLogs();
+
+    if (!logs || logs.length === 0) {
+      activityList.innerHTML = "";
+      activityEmpty.hidden = false;
+      return;
+    }
+
+    activityEmpty.hidden = true;
+
+    activityList.innerHTML = logs.map(log => {
+      let title = "Aktivitas transaksi";
+
+      if (log.action === "INSERT") {
+        title = "Menambahkan transaksi";
+      } else if (log.action === "UPDATE") {
+        title = "Mengubah transaksi";
+      } else if (log.action === "DELETE") {
+        title = "Menghapus transaksi";
+      }
+
+      const transactionData =
+        log.new_data || log.old_data || {};
+
+      const description =
+        transactionData.description || "Transaksi";
+
+      const date = new Date(log.created_at);
+
+      const formattedDate = date.toLocaleString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      const userId = log.user_id
+        ? log.user_id.slice(0, 8)
+        : "Pengguna";
+
+      return `
+        <article class="activity-item">
+          <div class="activity-icon">
+            ${log.action === "INSERT" ? "+" :
+              log.action === "DELETE" ? "×" : "✎"}
+          </div>
+
+          <div class="activity-content">
+            <strong>${esc(title)}</strong>
+            <p>${esc(description)}</p>
+            <small>
+              Oleh: ${esc(userId)} · ${esc(formattedDate)}
+            </small>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("Gagal memuat aktivitas:", error);
+
+    activityList.innerHTML =
+      '<p class="muted">Aktivitas gagal dimuat.</p>';
+  }
+}
 
 function render() {
   const period = getPeriod();
@@ -725,6 +803,8 @@ if (greeting) {
 }
 
 transactions = await window.FinDB.getTransactions();
+
+await loadTransactionActivity();
 
 setTheme();
 render();
