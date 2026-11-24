@@ -53,33 +53,34 @@ return {
 
 }
 
-async function getTransactions() {
-if (!currentUser || !currentWallet) {
-await initialize();
+async function getTransactionComments(transactionId) {
+  const wallet = getCurrentWallet();
+
+  if (!wallet) {
+    throw new Error("Dompet tidak ditemukan");
+  }
+
+  const { data, error } = await client
+    .from("transaction_comments")
+    .select(`
+      id,
+      wallet_id,
+      transaction_id,
+      user_id,
+      comment,
+      created_at,
+      profiles (
+        full_name
+      )
+    `)
+    .eq("wallet_id", wallet.id)
+    .eq("transaction_id", transactionId)
+    .order("created_at", { ascending: true });
+
+  if (error) throw error;
+
+  return data;
 }
-
-const { data, error } = await client
-  .from("transactions")
-  .select("*")
-  .eq("wallet_id", currentWallet.id)
-  .order("transaction_date", { ascending: false })
-  .order("created_at", { ascending: false });
-
-if (error) throw error;
-
-return data.map(item => ({
-  id: item.id,
-  description: item.description,
-  amount: Number(item.amount),
-  type: item.type,
-  category: item.category,
-  date: item.transaction_date,
-  note: item.note || "",
-  createdAt: item.created_at
-}));
-
-}
-
 async function addTransaction(transaction) {
 if (!currentUser || !currentWallet) {
 await initialize();
