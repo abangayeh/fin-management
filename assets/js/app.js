@@ -655,6 +655,16 @@ $("#exportButton").addEventListener("click", () => {
 
 /* Jalankan aplikasi setelah login terverifikasi */
 
+$("#logoutButton").addEventListener("click", async () => {
+  try {
+    await window.FinAuth.logout();
+    window.location.replace("login.html");
+  } catch (error) {
+    console.error("Gagal logout:", error);
+    toast("Gagal keluar dari akun");
+  }
+});
+
 checkDashboardAccess().then(async authorized => {
 if (!authorized) return;
 
