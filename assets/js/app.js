@@ -653,6 +653,9 @@ $("#exportButton").addEventListener("click", () => {
 
 /* Jalankan aplikasi setelah login terverifikasi */
 
+$("#profileButton").addEventListener("click", () => {
+  window.location.href = "profile.html";
+});
 $("#logoutButton").addEventListener("click", async () => {
   try {
     await window.FinAuth.logout();
