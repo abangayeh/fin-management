@@ -19,7 +19,6 @@ async function checkDashboardAccess() {
     document.documentElement.style.visibility = "visible";
 
     return true;
-
   } catch (error) {
     console.error("Pemeriksaan login gagal:", error);
     window.location.replace("login.html");
@@ -242,18 +241,6 @@ note: ""
 
 try {
 await window.FinDB.addTransaction(item);
-  const user = window.FIN_CURRENT_USER;
-const displayName =
-    user?.user_metadata?.full_name ||
-    user?.email ||
-    "Pengguna";
-
-const greeting = document.getElementById("userGreeting");
-
-if (greeting) {
-    greeting.textContent = `Halo, ${displayName}`;
-}
-
 transactions = await window.FinDB.getTransactions();
 
 $("#quickInput").value = "";
@@ -682,11 +669,23 @@ if (!authorized) return;
 try {
 await window.FinDB.initialize();
 
+// Tampilkan nama pengguna
+const user = window.FIN_CURRENT_USER;
+const displayName =
+  user?.user_metadata?.full_name ||
+  user?.email ||
+  "Pengguna";
+
+const greeting = document.getElementById("userGreeting");
+
+if (greeting) {
+  greeting.textContent = `Halo, ${displayName}`;
+}
+
 transactions = await window.FinDB.getTransactions();
 
 setTheme();
 render();
-
 } catch (error) {
   console.error("Gagal memuat data:", error);
 
