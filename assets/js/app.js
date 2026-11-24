@@ -460,6 +460,169 @@ function renderHistory(list) {
   `).join("");
 }
 // ==================================
+// KOMENTAR TRANSAKSI
+// ==================================
+
+let activeCommentTransaction = null;
+
+function createCommentDialog() {
+  if ($("#commentDialog")) return;
+
+  const dialog = document.createElement("dialog");
+
+  dialog.id = "commentDialog";
+  dialog.className = "comment-dialog";
+
+  dialog.innerHTML = `
+    <div class="comment-dialog-content">
+      <div class="comment-dialog-header">
+        <div>
+          <h3>💬 Komentar Transaksi</h3>
+          <p id="commentTransactionTitle"></p>
+        </div>
+
+        <button type="button" id="closeCommentDialog"
+          class="delete-button">×</button>
+      </div>
+
+      <div id="commentList" class="comment-list">
+        <p class="muted">Memuat komentar...</p>
+      </div>
+
+      <form id="commentForm" class="comment-form">
+        <textarea
+          id="commentInput"
+          placeholder="Tulis komentar..."
+          maxlength="1000"
+          required
+        ></textarea>
+
+        <button type="submit" id="sendCommentButton">
+          Kirim Komentar
+        </button>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(dialog);
+
+  $("#closeCommentDialog").addEventListener("click", () => {
+    dialog.close();
+  });
+
+  $("#commentForm").addEventListener("submit", submitTransactionComment);
+}
+
+async function openTransactionComments(transactionId) {
+  const item = transactions.find(
+    transaction => String(transaction.id) === String(transactionId)
+  );
+
+  if (!item) {
+    toast("Transaksi tidak ditemukan");
+    return;
+  }
+
+  createCommentDialog();
+
+  activeCommentTransaction = item.id;
+
+  $("#commentTransactionTitle").textContent = item.description;
+  $("#commentList").innerHTML =
+    '<p class="muted">Memuat komentar...</p>';
+
+  $("#commentInput").value = "";
+
+  $("#commentDialog").showModal();
+
+  await loadTransactionComments();
+}
+
+async function loadTransactionComments() {
+  const commentList = $("#commentList");
+
+  commentList.innerHTML =
+    '<p class="muted">Memuat komentar...</p>';
+
+  try {
+    const comments = await window.FinDB.getTransactionComments(
+      activeCommentTransaction
+    );
+
+    if (!comments || comments.length === 0) {
+      commentList.innerHTML =
+        '<p class="muted">Belum ada komentar. Jadilah yang pertama berkomentar.</p>';
+
+      return;
+    }
+
+    commentList.innerHTML = comments.map(comment => {
+      const date = new Date(comment.created_at);
+
+      const formattedDate = date.toLocaleString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      const userId = comment.user_id
+        ? comment.user_id.slice(0, 8)
+        : "Pengguna";
+
+      return `
+        <article class="comment-item">
+          <strong>${esc(userId)}</strong>
+          <p>${esc(comment.comment)}</p>
+          <small>${esc(formattedDate)}</small>
+        </article>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("Gagal memuat komentar:", error);
+
+    commentList.innerHTML =
+      '<p class="muted">Komentar gagal dimuat.</p>';
+  }
+}
+
+async function submitTransactionComment(event) {
+  event.preventDefault();
+
+  const input = $("#commentInput");
+  const button = $("#sendCommentButton");
+  const comment = input.value.trim();
+
+  if (!comment || !activeCommentTransaction) return;
+
+  button.disabled = true;
+  button.textContent = "Mengirim...";
+
+  try {
+    await window.FinDB.addTransactionComment(
+      activeCommentTransaction,
+      comment
+    );
+
+    input.value = "";
+
+    await loadTransactionComments();
+
+    toast("Komentar berhasil dikirim");
+
+  } catch (error) {
+    console.error("Gagal mengirim komentar:", error);
+
+    toast("Gagal mengirim komentar");
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Kirim Komentar";
+  }
+}
+// ==================================
 // AKTIVITAS TRANSAKSI
 // ==================================
 
