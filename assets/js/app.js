@@ -242,6 +242,17 @@ note: ""
 
 try {
 await window.FinDB.addTransaction(item);
+  const user = window.FIN_CURRENT_USER;
+const displayName =
+    user?.user_metadata?.full_name ||
+    user?.email ||
+    "Pengguna";
+
+const greeting = document.getElementById("userGreeting");
+
+if (greeting) {
+    greeting.textContent = `Halo, ${displayName}`;
+}
 
 transactions = await window.FinDB.getTransactions();
 
