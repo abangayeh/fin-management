@@ -689,9 +689,9 @@ if (wallet) {
   walletName.textContent = wallet.name;
 
   walletRole.textContent =
-    wallet.created_by === user.id
-      ? "Pemilik dompet"
-      : "Anggota dompet";
+  wallet.created_by === walletUser.id
+    ? "Pemilik dompet"
+    : "Anggota dompet";
 }
 
 inviteButton.addEventListener("click", async () => {
