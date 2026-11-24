@@ -605,3 +605,13 @@ footer strong{color:var(--green)}
     scroll-behavior:auto!important
   }
 }
+.brand-info{
+  min-width:0;
+}
+
+.mobile-brand .user-greeting{
+  margin-top:12px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+}
