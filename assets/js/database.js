@@ -54,6 +54,7 @@ return {
 }
 
 async function getTransactionComments(transactionId) {
+async function getTransactionComments(transactionId) {
   const wallet = getCurrentWallet();
 
   if (!wallet) {
