@@ -89,10 +89,6 @@ async function getTransactionComments(transactionId) {
     }
   }
 
-  const names = new Map(
-    profiles.map(profile => [profile.id, profile.full_name])
-  );
-
   return comments.map(comment => ({
     ...comment,
     full_name: names.get(comment.user_id) || "Pengguna"
