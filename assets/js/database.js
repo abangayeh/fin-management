@@ -104,7 +104,10 @@ async function getTransactions() {
 
   if (error) throw error;
 
-  return data || [];
+  return (data || []).map(transaction => ({
+  ...transaction,
+  date: transaction.transaction_date
+}));
 }
 async function addTransaction(transaction) {
 if (!currentUser || !currentWallet) {
