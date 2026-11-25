@@ -171,23 +171,6 @@ return data;
 }
 
 // AMBIL KOMENTAR TRANSAKSI
-async function getTransactionComments(transactionId) {
-if (!currentUser || !currentWallet) {
-await initialize();
-}
-
-const { data, error } = await client
-  .from("transaction_comments")
-  .select("*")
-  .eq("wallet_id", currentWallet.id)
-  .eq("transaction_id", transactionId)
-  .order("created_at", { ascending: true });
-
-if (error) throw error;
-
-return data;
-
-}
 
 // TAMBAHKAN KOMENTAR TRANSAKSI
 async function addTransactionComment(transactionId, comment) {
