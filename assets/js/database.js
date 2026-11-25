@@ -90,6 +90,22 @@ async function getTransactionComments(transactionId) {
     full_name: names.get(comment.user_id) || "Pengguna"
   }));
 }
+async function getTransactions() {
+  if (!currentUser || !currentWallet) {
+    await initialize();
+  }
+
+  const { data, error } = await client
+    .from("transactions")
+    .select("*")
+    .eq("wallet_id", currentWallet.id)
+    .order("transaction_date", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  return data || [];
+}
 async function addTransaction(transaction) {
 if (!currentUser || !currentWallet) {
 await initialize();
