@@ -589,11 +589,10 @@ async function loadTransactionComments() {
       `;
     }).join("");
 
-  } catch (error) {
-    console.error("Gagal memuat komentar:", error);
-
-    commentList.innerHTML =
-      '<p class="muted">Komentar gagal dimuat.</p>';
+  } catch(error) {
+  console.error("Gagal memuat komentar:", error);
+  commentList.innerHTML =
+    `<p class="muted">Gagal memuat komentar: ${esc(error.message || "Error tidak diketahui")}</p>`;
   }
 }
 
