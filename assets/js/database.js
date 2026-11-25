@@ -75,20 +75,29 @@ async function getTransactionComments(transactionId) {
   )];
 
   const { data: profiles, error: profileError } = await client
+  let profiles = [];
+
+if (userIds.length > 0) {
+  const { data, error: profileError } = await client
     .from("profiles")
     .select("id,full_name")
     .in("id", userIds);
 
-  if (profileError) throw profileError;
+  if (profileError) {
+    console.warn("Nama pengguna gagal dimuat:", profileError);
+  } else {
+    profiles = data || [];
+  }
+}
 
-  const names = new Map(
-    (profiles || []).map(profile => [profile.id, profile.full_name])
-  );
+const names = new Map(
+  profiles.map(profile => [profile.id, profile.full_name])
+);
 
-  return comments.map(comment => ({
-    ...comment,
-    full_name: names.get(comment.user_id) || "Pengguna"
-  }));
+return comments.map(comment => ({
+  ...comment,
+  full_name: names.get(comment.user_id) || "Pengguna"
+}));
 }
 async function getTransactions() {
   if (!currentUser || !currentWallet) {
