@@ -70,24 +70,34 @@ async function getTransactionComments(transactionId) {
   if (error) throw error;
   if (!comments || comments.length === 0) return [];
 
-  const userIds = [...new Set(
-    comments.map(comment => comment.user_id).filter(Boolean)
-  )];
+  const userIds = [
+    ...new Set(comments.map(comment => comment.user_id).filter(Boolean))
+  ];
 
-  const { data: profiles, error: profileError } = await client
   let profiles = [];
 
-if (userIds.length > 0) {
-  const { data, error: profileError } = await client
-    .from("profiles")
-    .select("id,full_name")
-    .in("id", userIds);
+  if (userIds.length > 0) {
+    const { data, error: profileError } = await client
+      .from("profiles")
+      .select("id,full_name")
+      .in("id", userIds);
 
-  if (profileError) {
-    console.warn("Nama pengguna gagal dimuat:", profileError);
-  } else {
-    profiles = data || [];
+    if (profileError) {
+      console.warn("Nama pengguna gagal dimuat:", profileError);
+    } else {
+      profiles = data || [];
+    }
   }
+
+  const names = new Map(
+    profiles.map(profile => [profile.id, profile.full_name])
+  );
+
+  return comments.map(comment => ({
+    ...comment,
+    full_name: names.get(comment.user_id) || "Pengguna"
+  }));
+}
 }
 
 const names = new Map(
