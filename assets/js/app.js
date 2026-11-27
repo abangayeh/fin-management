@@ -497,8 +497,17 @@ function getCurrentLanguage() {
 function saveLanguage(lang) {
   if (!FIN_LANGUAGES[lang]) return false;
 
-  localStorage.setItem(LANGUAGE_KEY, lang);
+  // Simpan dan jalankan sistem terjemahan language.js
+  if (window.FinLanguage) {
+    window.FinLanguage.setLanguage(lang);
+  } else {
+    localStorage.setItem(LANGUAGE_KEY, lang);
+  }
+
+  currentLanguage = lang;
   document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
   return true;
 }
 
@@ -510,9 +519,17 @@ function saveLanguage(lang) {
 function applyLanguage() {
   const lang = getCurrentLanguage();
 
+  currentLanguage = lang;
+
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
+  // Jalankan penerjemah language.js
+  if (window.FinLanguage) {
+    window.FinLanguage.applyLanguage();
+  }
+
+  // Jalankan terjemahan elemen yang memakai data-i18n
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
     el.textContent = t(key);
