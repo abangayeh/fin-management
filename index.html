@@ -1,377 +1,356 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0e16">
-<meta name="description" content="Fin. Management Khayalan Grup">
-<title>Fin. Management Khayalan Grup</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <title>Fin. Management Khayalan Grup</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
+  <div class="app-container">
 
-<div class="app-shell">
-
-<header class="mobile-brand">
-    <div class="brand-mark">$</div>
-
-    <div class="brand-info">
-    <h1>Fin. Management Khayalan Grup</h1>
-    <p>Catat keuangan. Cukup ketik.</p>
-    <p id="userGreeting" class="user-greeting">
-        Memuat profil...
-    </p>
-    </div>
-
-    <div class="header-actions">
-    <button id="profileButton" class="theme-button" title="Profil">
-        👤
-    </button>
-
-    <button id="themeToggle" class="theme-button" title="Ganti tema">
-        ☼
-    </button>
-
-    <button id="logoutButton" class="theme-button" title="Keluar">
-        ↪
-    </button>
-    </div>
-</header>
-
-<main class="content">
-<!-- DOMPET KELUARGA -->
-
-<section class="panel family-wallet-panel">
-
-    <div class="panel-heading">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">₣</div>
         <div>
-            <h3>👨‍👩‍👧 Dompet Keluarga</h3>
-            <p>Kelola keuangan bersama pasangan</p>
+          <h1>Fin. Management</h1>
+          <p>Catat keuangan. Cukup ketik.</p>
         </div>
-    </div>
+      </div>
 
-    <div class="family-wallet-info">
-        <strong id="walletName">Memuat dompet...</strong>
-        <span id="walletRole">Memuat status...</span>
-    </div>
+      <div class="header-actions">
+        <span id="userGreeting">Memuat profil...</span>
 
-    <button
-        type="button"
-        class="primary-button"
-        id="createInviteButton">
-        + Buat Kode Undangan
-    </button>
-
-    <div id="inviteResult" hidden>
-        <p>Kode undangan:</p>
-        <strong id="inviteCode"></strong>
-        <p>Kode berlaku selama 7 hari.</p>
-    </div>
-
-    <p id="walletFeedback" role="status"></p>
-
-</section>
-<section class="top-actions">
-
-    <div class="period-control">
-        <button id="prevPeriod">‹</button>
-
-        <div>
-            <h2 id="periodTitle">November 2026</h2>
-            <p id="periodRange">Periode laporan</p>
-        </div>
-
-        <button id="nextPeriod">›</button>
-    </div>
-
-    <div class="action-links">
-        <button class="subtle-button" id="cycleButton">
-            ⚙ Siklus
+        <button id="profileButton" type="button" title="Profil">
+          👤
         </button>
 
-        <button class="primary-button" id="exportButton">
-            ▤ Laporan
+        <button id="themeToggle" type="button" title="Ganti tema">
+          🌙
         </button>
-    </div>
 
-</section>
+        <button id="logoutButton" type="button">
+          Keluar
+        </button>
+      </div>
+    </header>
 
-<!-- INPUT TRANSAKSI -->
+    <!-- DOMPET KELUARGA -->
+    <section class="wallet-panel">
+      <div class="wallet-heading">
+        <div>
+          <h2>👨‍👩‍👧 Dompet Keluarga</h2>
+          <p>Kelola keuangan bersama pasangan</p>
+        </div>
+      </div>
 
-<section class="entry-section">
+      <div class="wallet-information">
+        <div>
+          <strong id="walletName">Memuat dompet...</strong>
+          <p id="walletRole">Memuat status...</p>
+        </div>
 
-    <form id="quickForm" class="quick-entry">
+        <button id="createInviteButton" type="button">
+          + Buat Kode Undangan
+        </button>
+      </div>
 
-        <span class="search-icon">⌕</span>
+      <div id="inviteResult" class="invite-result"></div>
+      <div id="walletFeedback" class="feedback"></div>
+    </section>
 
+    <!-- PERIODE LAPORAN -->
+    <section class="period-section">
+      <div class="period-navigation">
+        <button id="prevPeriod" type="button" aria-label="Periode sebelumnya">
+          ‹
+        </button>
+
+        <div class="period-information">
+          <h2 id="periodTitle">Memuat periode...</h2>
+          <p id="periodRange"></p>
+        </div>
+
+        <button id="nextPeriod" type="button" aria-label="Periode berikutnya">
+          ›
+        </button>
+      </div>
+
+      <div class="period-actions">
+        <button id="cycleButton" type="button">
+          ⚙ Siklus
+        </button>
+
+        <button id="exportButton" type="button">
+          ▤ Laporan
+        </button>
+      </div>
+    </section>
+
+    <!-- INPUT TRANSAKSI CEPAT -->
+    <section class="quick-entry-panel">
+      <div class="section-heading">
+        <h2>⚡ Catat Transaksi</h2>
+        <p>Cukup ketik transaksi, sistem akan membantu membacanya.</p>
+      </div>
+
+      <form id="quickForm">
         <input
-            id="quickInput"
-            autocomplete="off"
-            placeholder='Ketik transaksi... contoh: "makan siang 35rb"'
-            aria-label="Ketik transaksi"
+          id="quickInput"
+          type="text"
+          autocomplete="off"
+          placeholder='Ketik transaksi... contoh: "makan siang 35rb"'
+          required
         >
 
-        <button type="submit">➜</button>
+        <button type="submit" aria-label="Simpan transaksi">
+          ➜
+        </button>
+      </form>
 
-    </form>
-
-    <div class="quick-hints" id="quickHints">
-
-        <button type="button" data-example="Makan 35rb">
-            Makan 35rb
+      <div class="quick-examples">
+        <button type="button" class="quick-hint" data-value="Makan 35rb">
+          🍜 Makan 35rb
         </button>
 
-        <button type="button" data-example="Bensin 100rb">
-            Bensin 100rb
+        <button type="button" class="quick-hint" data-value="Bensin 100rb">
+          ⛽ Bensin 100rb
         </button>
 
-        <button type="button" data-example="Kopi 25rb">
-            Kopi 25rb
+        <button type="button" class="quick-hint" data-value="Kopi 25rb">
+          ☕ Kopi 25rb
         </button>
 
-        <button type="button" data-example="Gaji 8jt">
-            Gaji 8jt
+        <button type="button" class="quick-hint" data-value="Gaji 8jt">
+          💰 Gaji 8jt
         </button>
 
-        <button type="button" data-example="Nonton 60rb">
-            Nonton 60rb
+        <button type="button" class="quick-hint" data-value="Nonton 60rb">
+          🎬 Nonton 60rb
         </button>
 
-        <button type="button" data-example="Belanja 250rb">
-            Belanja 250rb
+        <button type="button" class="quick-hint" data-value="Belanja 250rb">
+          🛒 Belanja 250rb
         </button>
+      </div>
 
-    </div>
+      <div id="entryFeedback" class="feedback"></div>
+    </section>
 
-    <p class="entry-feedback" id="entryFeedback">
-        Contoh: Beli beras 25.000 atau Gaji 8jt.
-        Tekan Enter untuk menyimpan.
-    </p>
+    <!-- RINGKASAN KEUANGAN -->
+    <section class="summary-grid">
+      <article class="summary-card income-card">
+        <div class="summary-icon">↗</div>
+        <p>PEMASUKAN</p>
+        <h2 id="totalIncome">Rp0</h2>
+      </article>
 
-</section>
+      <article class="summary-card expense-card">
+        <div class="summary-icon">↘</div>
+        <p>PENGELUARAN</p>
+        <h2 id="totalExpense">Rp0</h2>
+      </article>
 
-<!-- RINGKASAN -->
+      <article class="summary-card balance-card">
+        <div class="summary-icon">◈</div>
+        <p>SISA SALDO</p>
+        <h2 id="totalBalance">Rp0</h2>
+      </article>
+    </section>
 
-<section class="summary-grid">
-
-    <article class="summary-card income">
-
-        <div class="card-label">
-            <span class="mini-icon">↙</span>
-            PEMASUKAN
+    <!-- GRAFIK KATEGORI -->
+    <section class="dashboard-grid">
+      <article class="dashboard-card">
+        <div class="section-heading">
+          <h2>Pengeluaran per Kategori</h2>
+          <p id="categoryPeriod">Periode ini</p>
         </div>
 
-        <strong id="totalIncome">Rp 0</strong>
-
-    </article>
-
-    <article class="summary-card expense">
-
-        <div class="card-label">
-            <span class="mini-icon">↗</span>
-            PENGELUARAN
-        </div>
-
-        <strong id="totalExpense">Rp 0</strong>
-
-    </article>
-
-    <article class="summary-card balance">
-
-        <div class="card-label">
-            <span class="mini-icon">☆</span>
-            SISA SALDO
-        </div>
-
-        <strong id="totalBalance">Rp 0</strong>
-
-    </article>
-
-</section>
-
-<!-- KATEGORI -->
-
-<section class="panel">
-
-    <div class="panel-heading">
-        <div>
-            <h3>Pengeluaran per Kategori</h3>
-            <p id="categoryPeriod">Periode ini</p>
-        </div>
-    </div>
-
-    <div class="category-layout">
-
-        <div class="donut" id="categoryDonut">
-
-            <div class="donut-hole">
-                <strong id="donutTotal">Rp 0</strong>
-                <span>Total keluar</span>
+        <div class="category-chart-container">
+          <div id="categoryChart" class="category-chart">
+            <div class="chart-center">
+              <span>Total keluar</span>
+              <strong id="categoryTotal">Rp0</strong>
             </div>
+          </div>
 
+          <div id="categoryLegend" class="category-legend">
+            <p>Belum ada pengeluaran.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- GRAFIK TREN -->
+      <article class="dashboard-card">
+        <div class="section-heading">
+          <h2>Tren 6 Periode</h2>
+          <p>Pemasukan vs Pengeluaran</p>
         </div>
 
-        <div class="legend" id="categoryLegend">
-            <p class="muted">
-                Belum ada pengeluaran.
-            </p>
+        <div id="trendChart" class="trend-chart">
+          <p>Grafik akan muncul setelah transaksi dicatat.</p>
         </div>
 
-    </div>
+        <div class="chart-legend">
+          <span class="legend-income">● Masuk</span>
+          <span class="legend-expense">● Keluar</span>
+        </div>
+      </article>
+    </section>
 
-</section>
-
-<!-- GRAFIK -->
-
-<section class="panel">
-
-    <div class="panel-heading">
+    <!-- RIWAYAT TRANSAKSI -->
+    <section class="dashboard-card history-section">
+      <div class="section-heading">
         <div>
-            <h3>Tren 6 Periode</h3>
-            <p>Pemasukan vs Pengeluaran</p>
+          <h2>Riwayat Transaksi</h2>
+          <p>Catatan keuangan pada periode terpilih</p>
         </div>
-    </div>
+      </div>
 
-    <div class="bar-chart" id="trendChart">
-        <p class="muted">
-            Grafik akan muncul setelah transaksi dicatat.
-        </p>
-    </div>
-
-    <div class="chart-legend">
-        <span><i class="dot green"></i> Masuk</span>
-        <span><i class="dot pink"></i> Keluar</span>
-    </div>
-
-</section>
-
-<!-- RIWAYAT TRANSAKSI -->
-
-<section class="panel history-panel">
-
-    <div class="panel-heading">
-        <div>
-            <h3>Riwayat Transaksi</h3>
-            <p>Catatan keuangan pada periode terpilih</p>
-        </div>
-    </div>
-
-    <div class="filters">
-
-        <button class="filter active" data-filter="all">
+      <div class="history-toolbar">
+        <div class="transaction-filters">
+          <button
+            type="button"
+            class="filter-button active"
+            data-filter="all"
+          >
             Semua
-        </button>
+          </button>
 
-        <button class="filter" data-filter="income">
+          <button
+            type="button"
+            class="filter-button"
+            data-filter="income"
+          >
             Masuk
-        </button>
+          </button>
 
-        <button class="filter" data-filter="expense">
+          <button
+            type="button"
+            class="filter-button"
+            data-filter="expense"
+          >
             Keluar
-        </button>
+          </button>
+        </div>
 
         <input
-            id="searchTransactions"
-            type="search"
-            placeholder="Cari transaksi..."
+          id="transactionSearch"
+          type="search"
+          placeholder="Cari transaksi..."
         >
+      </div>
 
-    </div>
+      <div id="transactionList" class="transaction-list"></div>
 
-    <div id="transactionList" class="transaction-list"></div>
+      <div id="transactionEmpty" class="empty-state">
+        <div>🧾</div>
+        <h3>Belum ada transaksi.</h3>
+        <p>Mulai dengan mengetik di kolom atas.</p>
+      </div>
+    </section>
 
-    <div id="transactionEmpty" class="empty-state">
-        Belum ada transaksi.
-        Mulai dengan mengetik di kolom atas.
-    </div>
+    <!-- AKTIVITAS TRANSAKSI -->
+    <section class="dashboard-card activity-section">
+      <div class="section-heading">
+        <h2>📋 Aktivitas Transaksi</h2>
+        <p>Catatan perubahan aktivitas dompet keluarga</p>
+      </div>
 
-</section>
+      <div id="activityList" class="activity-list"></div>
 
-<!-- AKTIVITAS TRANSAKSI -->
+      <div id="activityEmpty" class="empty-state">
+        <p>Belum ada aktivitas transaksi.</p>
+      </div>
+    </section>
 
-<section class="panel activity-panel">
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <p>Dibuat oleh <strong>Muhammad Rozikin</strong></p>
+      <p>Fin. Management Khayalan Grup</p>
+    </footer>
 
-    <div class="panel-heading">
-        <div>
-            <h3>📋 Aktivitas Transaksi</h3>
-            <p>Catatan perubahan aktivitas dompet keluarga</p>
-        </div>
-    </div>
+  </div>
 
-    <div id="activityList" class="activity-list">
-        <p class="muted">Memuat aktivitas...</p>
-    </div>
+  <!-- DIALOG SIKLUS LAPORAN -->
+  <dialog id="cycleDialog" class="app-dialog">
+    <form method="dialog" class="dialog-content">
+      <div class="dialog-heading">
+        <h2>Pengaturan siklus laporan</h2>
+        <p>Tentukan tanggal awal periode bulanan.</p>
+      </div>
 
-    <div id="activityEmpty" class="empty-state" hidden>
-        Belum ada aktivitas transaksi.
-    </div>
+      <label for="cycleDay">Tanggal mulai siklus</label>
 
-</section>
-<footer>
-    Dibuat oleh <strong>Muhammad Rozikin</strong>
-    <br>
-    Fin. Management Khayalan Grup
-</footer>
+      <select id="cycleDay">
+        <option value="1">Tanggal 1</option>
+        <option value="25">Tanggal 25</option>
+        <option value="28">Tanggal 28</option>
+      </select>
 
-</main>
-</div>
+      <div class="dialog-actions">
+        <button id="cancelCycle" type="button">
+          Batal
+        </button>
 
-<!-- PENGATURAN SIKLUS -->
-
-<dialog id="cycleDialog" class="dialog">
-
-    <form method="dialog" id="cycleForm">
-
-        <h3>Pengaturan siklus laporan</h3>
-
-        <p>
-            Tentukan tanggal awal periode bulanan.
-        </p>
-
-        <label for="cycleDay">
-            Tanggal mulai siklus
-        </label>
-
-        <select id="cycleDay">
-            <option value="1">Tanggal 1</option>
-            <option value="25">Tanggal 25</option>
-            <option value="28">Tanggal 28</option>
-        </select>
-
-        <div class="dialog-actions">
-
-            <button class="subtle-button" value="cancel">
-                Batal
-            </button>
-
-            <button class="primary-button" id="saveCycle" value="default">
-                Simpan
-            </button>
-
-        </div>
-
+        <button id="saveCycle" type="button">
+          Simpan
+        </button>
+      </div>
     </form>
+  </dialog>
 
-</dialog>
+  <!-- DIALOG KOMENTAR TRANSAKSI -->
+  <dialog id="commentDialog" class="app-dialog">
+    <div class="dialog-content">
+      <div class="dialog-heading">
+        <h2>Komentar Transaksi</h2>
+        <button
+          id="closeCommentDialog"
+          type="button"
+          aria-label="Tutup"
+        >
+          ✕
+        </button>
+      </div>
 
-<div id="toast" class="toast" role="status"></div>
+      <div id="commentList" class="comment-list">
+        <p>Memuat komentar...</p>
+      </div>
 
-<!-- Supabase Library -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      <form id="commentForm">
+        <textarea
+          id="commentInput"
+          placeholder="Tulis komentar..."
+          required
+        ></textarea>
 
-<!-- Supabase Configuration -->
-<script src="assets/js/supabase.js"></script>
-<script src="assets/js/auth.js"></script>
-<script src="assets/js/database.js"></script>
-<!-- Main Application -->
-<script src="assets/js/app.js"></script>
+        <button type="submit">
+          Kirim Komentar
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- NOTIFIKASI -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- LIBRARY SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- KONFIGURASI DAN SISTEM -->
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/database.js"></script>
+
+  <!-- SISTEM MULTIBAHASA -->
+  <script src="assets/js/language.js"></script>
+
+  <!-- APLIKASI UTAMA -->
+  <script src="assets/js/app.js"></script>
 
 </body>
 </html>
