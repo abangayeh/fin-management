@@ -1,0 +1,58 @@
+"use strict";
+
+(function () {
+  const STORAGE_KEY = "finmanagement_language_v1";
+
+  const languages = {
+    id: "Bahasa Indonesia",
+    en: "English",
+    ja: "日本語",
+    zh: "中文",
+    ko: "한국어",
+    ar: "العربية",
+    ms: "Bahasa Melayu",
+    th: "ไทย",
+    vi: "Tiếng Việt",
+    fil: "Filipino",
+    hi: "हिन्दी",
+    bn: "বাংলা",
+    de: "Deutsch",
+    fr: "Français",
+    es: "Español",
+    pt: "Português",
+    it: "Italiano",
+    ru: "Русский",
+    tr: "Türkçe",
+    nl: "Nederlands"
+  };
+
+  function getLanguage() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    return languages[saved] ? saved : "id";
+  }
+
+  function setLanguage(language) {
+    if (!languages[language]) {
+      throw new Error("Bahasa tidak didukung.");
+    }
+
+    localStorage.setItem(STORAGE_KEY, language);
+
+    window.dispatchEvent(
+      new CustomEvent("fin:language-change", {
+        detail: { language }
+      })
+    );
+  }
+
+  function getLanguages() {
+    return { ...languages };
+  }
+
+  window.FinLanguage = {
+    getLanguage,
+    setLanguage,
+    getLanguages
+  };
+})();
