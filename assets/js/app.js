@@ -128,10 +128,14 @@ function getPeriod() {
   }
 
   const end = new Date(
-    start.getFullYear(),
-    start.getMonth() + 1,
-    cycleDay === 1 ? 0 : cycleDay - 1
-  );
+  start.getFullYear(),
+  start.getMonth() + 1,
+  cycleDay === 1 ? 0 : cycleDay - 1,
+  23,
+  59,
+  59,
+  999
+);
 
   return { start, end };
 }
