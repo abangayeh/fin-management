@@ -73,7 +73,6 @@ const THEME_KEY = "finmanagement_theme_v1";
 const CYCLE_KEY = "finmanagement_cycle_day_v1";
 const LANGUAGE_KEY = "finmanagement_language_v1";
 
-let transactions = [];
 let theme = localStorage.getItem(THEME_KEY) || "dark";
 let cycleDay = Number(localStorage.getItem(CYCLE_KEY) || 1);
 let periodOffset = 0;
@@ -1494,11 +1493,12 @@ function onAll(selector, event, callback) {
 }
 
 // Mengatur tema.
-function setTheme(theme) {
-  const selected = theme ||
+function setTheme(selectedTheme) {
+  const selected = selectedTheme ||
     localStorage.getItem(THEME_KEY) ||
     "dark";
 
+  theme = selected;
   document.documentElement.dataset.theme = selected;
   localStorage.setItem(THEME_KEY, selected);
 
@@ -1640,7 +1640,6 @@ onAll(".filter, .filter-button", "click", event => {
     button.dataset.type ||
     "all";
 
-  onAll(".filter, .filter-button", "class", () => {});
 
   document.querySelectorAll(".filter, .filter-button")
     .forEach(item => item.classList.remove("active"));
