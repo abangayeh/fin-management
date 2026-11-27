@@ -1667,11 +1667,11 @@ onAll(".filter, .filter-button", "click", event => {
 });
 
 // Tombol contoh input cepat.
-onAll("[data-example]", "click", event => {
+onAll("[data-value]", "click", event => {
   const input = $("#quickInput");
   if (!input) return;
 
-  input.value = event.currentTarget.dataset.example || "";
+  input.value = event.currentTarget.dataset.value || "";
   input.focus();
 });
 
