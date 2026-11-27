@@ -215,33 +215,37 @@ async function getTransactionLogs() {
 
 // TAMBAHKAN KOMENTAR TRANSAKSI
 async function addTransactionComment(transactionId, comment) {
-if (!currentUser || !currentWallet) {
-await initialize();
+  if (!currentUser || !currentWallet) {
+    await initialize();
+  }
+
+  const wallet = getCurrentWallet();
+
+  if (!wallet) {
+    throw new Error("Dompet tidak ditemukan.");
+  }
+
+  const cleanComment = String(comment || "").trim();
+
+  if (!cleanComment) {
+    throw new Error("Komentar tidak boleh kosong.");
+  }
+
+  const { data, error } = await client
+    .from("transaction_comments")
+    .insert({
+      wallet_id: wallet.id,
+      transaction_id: transactionId,
+      user_id: currentUser.id,
+      comment: cleanComment
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return data;
 }
-
-const cleanComment = String(comment || "").trim();
-
-if (!cleanComment) {
-  throw new Error("Komentar tidak boleh kosong.");
-}
-
-const { data, error } = await client
-  .from("transaction_comments")
-  .insert({
-    wallet_id: currentWallet.id,
-    transaction_id: transactionId,
-    user_id: currentUser.id,
-    comment: cleanComment
-  })
-  .select()
-  .single();
-
-if (error) throw error;
-
-return data;
-
-}
-
 async function createWalletInvite() {
 if (!currentUser || !currentWallet) {
 await initialize();
