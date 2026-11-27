@@ -113,7 +113,7 @@
       color:#d8e0eb;
     }
 
-    input {
+    input, select {
       width:100%;
       height:49px;
       padding:0 14px;
@@ -126,7 +126,7 @@
       outline:none;
     }
 
-    input:focus {
+    input:focus, select:focus {
       border-color:var(--green);
       box-shadow:0 0 0 3px rgba(55,214,154,.08);
     }
@@ -204,7 +204,8 @@
       .card {padding:22px 18px}
       .actions {flex-direction:column}
     }
-  </style></head><body>  <main class="profile-container"><div class="brand">
+  </style></head><body>
+  <main class="profile-container"><div class="brand">
   <div class="brand-icon">₣</div>
   <span>Fin. Management</span>
 </div>
@@ -218,6 +219,37 @@
   <p class="avatar-caption">Profil akun kamu</p>
 
   <div id="message" class="message" role="status" aria-live="polite"></div>
+
+  <div class="field">
+    <label for="languageSelect">Bahasa Aplikasi</label>
+
+    <select id="languageSelect">
+      <option value="id">Bahasa Indonesia</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
+      <option value="zh">中文</option>
+      <option value="ko">한국어</option>
+      <option value="ar">العربية</option>
+      <option value="ms">Bahasa Melayu</option>
+      <option value="th">ไทย</option>
+      <option value="vi">Tiếng Việt</option>
+      <option value="fil">Filipino</option>
+      <option value="hi">हिन्दी</option>
+      <option value="bn">বাংলা</option>
+      <option value="de">Deutsch</option>
+      <option value="fr">Français</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="it">Italiano</option>
+      <option value="ru">Русский</option>
+      <option value="tr">Türkçe</option>
+      <option value="nl">Nederlands</option>
+    </select>
+
+    <p class="hint">
+      Pilih bahasa yang ingin digunakan dalam aplikasi.
+    </p>
+  </div>
 
   <form id="profileForm">
 
@@ -252,7 +284,7 @@
 
 </section>
 
-  </main>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="assets/js/supabase.js"></script>  <script src="assets/js/auth.js"></script>  <script>
+  </main>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="assets/js/supabase.js"></script>  <script src="assets/js/auth.js"></script>  <script src="assets/js/language.js"></script>  <script>
     const $ = id => document.getElementById(id);
 
     function showMessage(text, type) {
@@ -263,6 +295,27 @@
     function updateAvatar(name) {
       $("avatar").textContent =
         (name.trim().charAt(0) || "?").toUpperCase();
+    }
+
+    function initializeLanguage() {
+      const selector = $("languageSelect");
+
+      if (!window.FinLanguage) {
+        showMessage("Sistem bahasa gagal dimuat.", "error");
+        return;
+      }
+
+      selector.value = window.FinLanguage.getLanguage();
+
+      selector.addEventListener("change", () => {
+        try {
+          window.FinLanguage.setLanguage(selector.value);
+          showMessage("Pilihan bahasa berhasil disimpan.", "success");
+        } catch (error) {
+          console.error(error);
+          showMessage("Gagal menyimpan pilihan bahasa.", "error");
+        }
+      });
     }
 
     async function loadProfile() {
@@ -308,7 +361,7 @@
       button.textContent = "Menyimpan...";
 
       try {
-        const { data, error } =
+        const { error } =
           await window.supabaseClient.auth.updateUser({
             data: {
               full_name: name
@@ -318,7 +371,6 @@
         if (error) throw error;
 
         updateAvatar(name);
-
         showMessage("Profil berhasil diperbarui!", "success");
 
       } catch (error) {
@@ -337,6 +389,7 @@
       window.location.href = "index.html";
     });
 
+    initializeLanguage();
     loadProfile();
   </script></body>
 </html>
