@@ -734,45 +734,59 @@ function periodLabel(period = getPeriod()) {
   return `${start} – ${end}`;
 }
 
-// Mengubah input nominal seperti 35rb, 2jt, atau 50000.
+// Mengambil nominal dari teks transaksi, misalnya:
+// "mkn 25 rb", "Makan 25000", "Bensin 1,5jt".
 function parseAmount(value) {
   if (typeof value === "number") {
+    if (!Number.isFinite(value) || value === 0) return null;
+
     return {
       amount: Math.abs(value),
-      type: value < 0 ? "expense" : "expense"
+      type: "expense"
     };
   }
 
-  let text = String(value || "")
-    .toLowerCase()
+  const text = String(value || "").toLowerCase();
+
+  // Ambil bagian angka beserta satuannya saja dari kalimat.
+  const match = text.match(
+    /-?\d[\d.,]*\s*(?:juta|jt|ribu|rb|k)?/i
+  );
+
+  if (!match) return null;
+
+  let amountText = match[0]
     .replace(/\s/g, "")
-    .replace(/rp\.?/g, "");
-
-  const negative = text.startsWith("-");
-
-  text = text.replace(/[^0-9.,a-z]/g, "");
+    .replace(/^-/g, "");
 
   let multiplier = 1;
 
-  if (/jt|juta/.test(text)) {
+  if (/juta|jt$/i.test(amountText)) {
     multiplier = 1000000;
-    text = text.replace(/juta|jt/g, "");
-  } else if (/rb|ribu|k/.test(text)) {
+    amountText = amountText.replace(/juta|jt$/i, "");
+  } else if (/ribu|rb|k$/i.test(amountText)) {
     multiplier = 1000;
-    text = text.replace(/ribu|rb|k/g, "");
+    amountText = amountText.replace(/ribu|rb|k$/i, "");
   }
 
-  text = text.replace(",", ".");
-
-  const amount = Number(text) * multiplier;
-
-  if (!Number.isFinite(amount) || amount <= 0) {
-    return null;
+  // Tangani format desimal dan pemisah ribuan.
+  if (amountText.includes(",") && amountText.includes(".")) {
+    if (amountText.lastIndexOf(",") > amountText.lastIndexOf(".")) {
+      amountText = amountText.replace(/\./g, "").replace(",", ".");
+    } else {
+      amountText = amountText.replace(/,/g, "");
+    }
+  } else if (amountText.includes(",")) {
+    amountText = amountText.replace(",", ".");
   }
+
+  const amount = Number(amountText) * multiplier;
+
+  if (!Number.isFinite(amount) || amount <= 0) return null;
 
   return {
     amount: Math.round(amount),
-    type: negative ? "expense" : "expense"
+    type: "expense"
   };
 }
 
