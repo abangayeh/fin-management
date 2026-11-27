@@ -697,7 +697,7 @@ async function loadTransactionActivity() {
             <strong>${esc(title)}</strong>
             <p>${esc(description)}</p>
             <small>
-              Oleh: ${esc(userId)} · ${esc(formattedDate)}
+              Oleh: ${esc(userName)} · ${esc(formattedDate)}
             </small>
           </div>
         </article>
