@@ -54,10 +54,14 @@ return {
 }
 
 async function getTransactionComments(transactionId) {
+  if (!currentUser || !currentWallet) {
+    await initialize();
+  }
+
   const wallet = getCurrentWallet();
 
   if (!wallet) {
-    throw new Error("Dompet tidak ditemukan");
+    throw new Error("Dompet tidak ditemukan.");
   }
 
   const { data: comments, error } = await client
