@@ -683,9 +683,8 @@ async function loadTransactionActivity() {
         minute: "2-digit"
       });
 
-      const userId = log.user_id
-        ? log.user_id.slice(0, 8)
-        : "Pengguna";
+      const userName = log.full_name ||
+  (log.user_id ? log.user_id.slice(0, 8) : "Pengguna");
 
       return `
         <article class="activity-item">
