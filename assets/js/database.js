@@ -165,20 +165,46 @@ return true;
 
 // AMBIL RIWAYAT PERUBAHAN TRANSAKSI
 async function getTransactionLogs() {
-if (!currentUser || !currentWallet) {
-await initialize();
-}
+  if (!currentUser || !currentWallet) {
+    await initialize();
+  }
 
-const { data, error } = await client
-  .from("transaction_logs")
-  .select("*")
-  .eq("wallet_id", currentWallet.id)
-  .order("created_at", { ascending: false });
+  const { data: logs, error } = await client
+    .from("transaction_logs")
+    .select("*")
+    .eq("wallet_id", currentWallet.id)
+    .order("created_at", { ascending: false });
 
-if (error) throw error;
+  if (error) throw error;
+  if (!logs || logs.length === 0) return [];
 
-return data;
+  const userIds = [
+    ...new Set(logs.map(log => log.user_id).filter(Boolean))
+  ];
 
+  let profiles = [];
+
+  if (userIds.length > 0) {
+    const { data, error: profileError } = await client
+      .from("profiles")
+      .select("id,full_name")
+      .in("id", userIds);
+
+    if (profileError) {
+      console.warn("Nama pengguna gagal dimuat:", profileError);
+    } else {
+      profiles = data || [];
+    }
+  }
+
+  const names = new Map(
+    profiles.map(profile => [profile.id, profile.full_name])
+  );
+
+  return logs.map(log => ({
+    ...log,
+    full_name: names.get(log.user_id) || "Pengguna"
+  }));
 }
 
 // AMBIL KOMENTAR TRANSAKSI
